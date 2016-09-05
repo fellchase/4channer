@@ -174,8 +174,9 @@ def uprint(*objects, sep=' ', end='\n', file=sys.stdout):
 
 print('''
 ============================= INSTRUCTIONS ================================
-To download 4chan Thread Enter its URL
-*Does not work when asked for CAPTCHA use VPN
+To download 4chan Thread Enter its URL don't forget / at end 
+for example https://www.google.com/
+*Does not work when asked for CAPTCHA, use VPN
 To download Multiple Threads Enter URLs separated by commas,
 Ensure that you do not put spaces around commas.
 https://boards.4chan.org/thread/12345,https://boards.4chan.org/thread/67890
@@ -230,11 +231,12 @@ try:
             thread = Thread(i, downloadGif, downloadImage)
             stuffToDownload = thread.downloadLister()
             founder(stuffToDownload)
-            allThreads.append(stuffToDownload)
+            if len(stuffToDownload) > 0:
+                allThreads.append(stuffToDownload)
             if len(stuffToDownload) == 0:
-                print('No Results for ' + i)
+                print('No Results for ' + i, '\n')
         if len(allThreads) == 0:
-                print('Found nothing...\nQuitting')
+                print('Found nothing... Quitting')
                 quit()
         if input("\n'Enter' to Download or 'n' to skip download of " + str(counter - 1) + " video(s) of " + str(sizeCount // 1024) + " KB? ") == "":
             for thread, respectiveURL in zip(allThreads, URL):
