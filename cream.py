@@ -188,7 +188,7 @@ To download latest content from gif board, Press Enter
 ''')
 
 rawURL = input("Enter URL(s): ").strip()
-rawDirectory = input("\nWhere do you want to save files? 'Enter' for working directory ").strip('/\\')
+rawDirectory = os.path.abspath(input("\nWhere do you want to save files? 'Enter' for working directory ").strip('/\\'))
 
 # URL input validation 
 if rawURL != "":
@@ -204,12 +204,11 @@ if rawURL != "":
 if rawDirectory != "":
     if os.path.exists(rawDirectory):
         directory = rawDirectory
+        os.chdir(os.path.abspath(directory))
     else:
         print('Making Directories...', rawDirectory)
-        os.makedirs(rawDirectory.strip('\\/'))
         directory = rawDirectory
-        print("Directory:", directory)
-        os.chdir(os.path.join(os.getcwd(), directory))
+        print("Directory:", os.path.abspath(directory))
 
 if webFile == False:
     if input("\nDo you want to download GIFs? 'Y' or 'Enter' to skip\n") != "":
