@@ -58,7 +58,7 @@ class Video:
             uprint(str(downloadPercentage) + "%", os.path.basename(filename), "[" + str(kiloBytesDownloaded), "KB/" + str(int(videoSize) // 1024)
             , "KB]", averageSpeed, 'Kbps Time Left -', self.timeStamp(int(videoSize), kiloBytesDownloaded*1024, averageSpeed), end='\r')
 
-    printDledStats = lambda self:    uprint(dlVidCount, "Saved..", os.path.basename(self.filename), 'to', os.path.dirname(os.path.abspath(self.filename)), "[" + str(int(self.videoSize) // 1024), "KB]")
+    printDledStats = lambda self:    uprint(dlVidCount, 'of', counter - 1, "Saved..", os.path.abspath(self.filename), "[" + str(int(self.videoSize) // 1024), "KB]")
 
     def download(self):
         global totalBytesDownloaded, totalTime, dlVidCount
