@@ -51,11 +51,18 @@ class Video:
 
     def printDlStats(self, downloadPercentage, filename, kiloBytesDownloaded, videoSize, averageSpeed):
         global totalBytesDownloaded
+        # Ensures that filename isn't too long for Windows CMD window
+        filename = os.path.basename(filename)
+        if len(filename) > 20:
+            temp_start = filename[:(20//2 - 3)]  # Beginning slice of a long name 
+            temp_end = filename[-(20//2):]  # Ending slice of long name
+            filename = temp_start + '...' + temp_end  # Puts ... between beginning and end slice
+
         if self.sizeCount:
-            uprint(str(downloadPercentage) + "%", os.path.basename(filename), "[" + str(kiloBytesDownloaded), "KB/" + str(int(videoSize) // 1024)
+            uprint(str(downloadPercentage) + "%", filename, "[" + str(kiloBytesDownloaded), "KB/" + str(int(videoSize) // 1024)
             , "KB]", averageSpeed, 'Kbps Time Left -', self.timeStamp(self.sizeCount, totalBytesDownloaded, averageSpeed), end='\r')
         else:
-            uprint(str(downloadPercentage) + "%", os.path.basename(filename), "[" + str(kiloBytesDownloaded), "KB/" + str(int(videoSize) // 1024)
+            uprint(str(downloadPercentage) + "%", filename, "[" + str(kiloBytesDownloaded), "KB/" + str(int(videoSize) // 1024)
             , "KB]", averageSpeed, 'Kbps Time Left -', self.timeStamp(int(videoSize), kiloBytesDownloaded*1024, averageSpeed), end='\r')
 
     printDledStats = lambda self:    uprint(dlVidCount, 'of', counter - 1, "Saved..", os.path.abspath(self.filename), "[" + str(int(self.videoSize) // 1024), "KB]")
@@ -111,20 +118,27 @@ class Thread:
 
     def subLister(self, element):
         # This creates Tuples for downloadLister Function which adds them in array
+        # Tuples contain information about media to download
         global sizeCount
+        # Getting URL of media
         href = str('https:' + element.a.get('href'))
-        textAnchor = str(element.a.getText())
-
+        # Getting name of media
+        textAnchor = str(element.a.get('title')) # On 4chan title attribute exists for very long names
+        if textAnchor == "None":
+            textAnchor = str(element.a.getText()) # Otherwise there's only textAnchor
+        # Find size in bytes of media
         try:
             length = requests.head(url=href).headers['content-length']
             sizeCount += int(length)
         except:
             length = 0
+        # Finds resolution of media
         try:
             resolution = regex_Resolution.search(element.getText()).group(1)
         except:
             resolution = 'Unknown'
-        return href, textAnchor, length, resolution
+
+        return href, textAnchor, length, resolution  # Creates Tuple
 
     def downloadLister(self):
         # Creates a Array of Tuples for downloadVideo function
@@ -172,20 +186,20 @@ def uprint(*objects, sep=' ', end='\n', file=sys.stdout):
         print(*map(f, objects), sep=sep, end=end, file=file)
 
 
-print('''
-============================= INSTRUCTIONS ================================
-To download 4chan Thread Enter its URL don't forget / at end 
-for example https://www.google.com/
-*Does not work when asked for CAPTCHA, use VPN
-To download Multiple Threads Enter URLs separated by commas,
-Ensure that you do not put spaces around commas.
-https://boards.4chan.org/thread/12345,https://boards.4chan.org/thread/67890
-To download a single file enter its URL, ensure it has its extension
->>> https://dl.example.com/example.mp4
-You can not download multiple files simultaneously.
-Default URL is https://4chan.org/gif
-To download latest content from gif board, Press Enter
-''')
+print()
+print('============================= INSTRUCTIONS ================================')
+print('To download 4chan Thread Enter its URL don\'t forget / at end ')
+print('for example https://www.google.com/')
+print('*Does not work when asked for CAPTCHA, use VPN')
+print('To download Multiple Threads Enter URLs separated by commas,')
+print('Ensure that you do not put spaces around commas.')
+print('https://boards.4chan.org/thread/12345,https://boards.4chan.org/thread/67890')
+print('To download a single file enter its URL, ensure it has its extension')
+print('>>> https://dl.example.com/example.mp4')
+print('You can not download multiple files simultaneously.')
+print('Default URL is https://4chan.org/gif')
+print('To download latest content from gif board, Press Enter')
+print()
 
 rawURL = input("Enter URL(s): ").strip()
 rawDirectory = os.path.abspath(input("\nWhere do you want to save files? 'Enter' for working directory ").strip('/\\'))
