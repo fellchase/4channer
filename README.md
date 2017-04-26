@@ -4,8 +4,8 @@
 ![Downloader on Linux Terminal](https://cloud.githubusercontent.com/assets/11918572/25342888/03a8d4c4-292b-11e7-98e1-261ce47452db.png)
 
 ## What it does? 
-* Download from multiple threads in one go
-* Download all the Videos, Images, and GIFs of the thread
+* Downloads from multiple threads in one go
+* Download all the Videos, Images, and GIFs in the thread
 
 ## Dependencies 
 
@@ -17,7 +17,7 @@ Alternatively, to get bs4 installed on Windows or Linux, you must have pip on yo
 
     pip install bs4
 
-How to install Module --> https://docs.python.org/3.6/installing/
+How to install Modules --> https://docs.python.org/3.6/installing/
 
 ## Installing 4chan Media Downloader
 #### For Windows users
