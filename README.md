@@ -5,7 +5,7 @@
 
 ## What it does? 
 * Downloads from multiple threads in one go
-* Download all the Videos, Images, and GIFs in the thread
+* Downloads all the Videos, Images, and GIFs in the thread
 
 ## Dependencies 
 
