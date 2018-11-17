@@ -3,7 +3,7 @@
 #                            | |_| _|_  _  _   |\/| _  _|. _   | \ _    _ | _  _  _| _  _ |
 #                            |   |(_| |(_|| |  |  |(/_(_||(_|  |_/(_)VV| ||(_)(_|(_|(/_|  |
 #                            | --------------------------- v2 --------------------------- |
-#                            |    https://github.com/fellchase/4chan-media-downloader/    |
+#                            |            https://github.com/fellchase/4channer/          |
 #                            |                                                            |
 #                            |              Cross Platform 4chan Downloader               |
 #                            |   Download Multiple threads with Videos, GIFs and Images   |
@@ -21,7 +21,7 @@ try:
 except ImportError as import_error:
     print(import_error)
     print("Dependencies : Python Standard Library & bs4")
-    print("Missing modules aren't in this folder, get them here -> https://github.com/fellchase/4chan-media-downloader")
+    print("Missing modules aren't in this folder, get them here -> https://github.com/fellchase/4channer")
     quit("Otherwise download them with pip --> https://docs.python.org/3.6/installing/")
 
 
@@ -40,7 +40,7 @@ if 'help' in argv:  # Help banner
     print("| |_| _|_  _  _   |\/| _  _|. _   | \ _    _ | _  _  _| _  _ |".center(columns))
     print("|   |(_| |(_|| |  |  |(/_(_||(_|  |_/(_)VV| ||(_)(_|(_|(/_|  |".center(columns))
     print("| --------------------------- v2 --------------------------- |".center(columns))
-    print("|                      How to cream.py?                      |".center(columns))
+    print("|                   How to use 4channer.py?                  |".center(columns))
     print("|                                                            |".center(columns))
     print("| [1] http-only -- Forces to use HTTP instead of HTTPS       |".center(columns))
     print("| It's used in case of SSL: CERTIFICATE_VERIFY_FAILED error  |".center(columns))
@@ -65,13 +65,13 @@ print("|                                  _                         |".center(co
 print("| |_| _|_  _  _   |\/| _  _|. _   | \ _    _ | _  _  _| _  _ |".center(columns))
 print("|   |(_| |(_|| |  |  |(/_(_||(_|  |_/(_)VV| ||(_)(_|(_|(/_|  |".center(columns))
 print("| --------------------------- v2 --------------------------- |".center(columns))
-print("|    https://github.com/fellchase/4chan-media-downloader/    |".center(columns))
+print("|            https://github.com/fellchase/4channer/          |".center(columns))
 print("|                                                            |".center(columns))
 print("|              Cross Platform 4chan Downloader               |".center(columns))
 print("|   Download Multiple threads with Videos, GIFs and Images   |".center(columns))
 print("|   Written by fellchase in Python 3 -- Dependencies : bs4   |".center(columns))
 print("| ---------------------------------------------------------- |".center(columns))
-print("|        python cream.py help for usage instructions         |".center(columns))
+print("|       python 4channer.py help for usage instructions       |".center(columns))
 print("|____________________________________________________________|".center(columns))
 print()
 
@@ -507,7 +507,7 @@ except req.URLError as url_error:
         quit("Server not found, check your network connection or check the address")
     if 'SSL: CERTIFICATE_VERIFY_FAILED' in str(url_error):
         print(url_error)
-        quit("Rerun the script with http-only argument & see if the error still persist\nex. python cream.py http-only")
+        quit("Rerun the script with http-only argument & see if the error still persist\nex. python 4channer.py http-only")
     quit(url_error)
 except KeyboardInterrupt:
     quit("\nTerminated by user")
