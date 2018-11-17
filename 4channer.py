@@ -83,7 +83,7 @@ if "http-only" in argv:
 else:
     protocol = 'https'
 
-URL = protocol + "://boards.4chan.org/gif/"  # Default URL points to "Adult GIF" Board
+URL = protocol + "://boards.4chan.org/wsg/"
 script_directory = dirname(abspath(__file__))  # Files are saved in script's directory, but it can be changed
 
 total_session_dl_size = 0  # Combined size of all items that may be downloaded in bytes
