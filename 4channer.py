@@ -83,7 +83,7 @@ if "http-only" in argv:
 else:
     protocol = 'https'
 
-URL = protocol + "://boards.4chan.org/wsg/"
+URL = protocol + "://boards.4chan.org/wg/"
 script_directory = dirname(abspath(__file__))  # Files are saved in script's directory, but it can be changed
 
 total_session_dl_size = 0  # Combined size of all items that may be downloaded in bytes
@@ -96,9 +96,9 @@ def make_flat_list(input_list):
     flat_list = []
 
     for x in input_list:
-        if type(x) is not list:
+        if type(x) != list:
             flat_list.append(x)
-        elif type(x) is list:
+        elif type(x) == list:
             for y in make_flat_list(x):
                 flat_list.append(y)
     
@@ -135,9 +135,9 @@ def alpha_numeric_filter(string):
     filtered = ""
 
     for char in string:
-        if char.isalnum() or char is ' ':
+        if char.isalnum() or char == ' ':
             filtered += char
-        if char is '\n':
+        if char == '\n':
             continue
 
     return filtered
@@ -156,7 +156,7 @@ def get_web_page_source(url):
     # Sends request to server
     response = req.urlopen(request)
 
-    if response.getcode() is 200:
+    if response.getcode() == 200:
         print("HTTP Response Status Code 200 OK")
     else:
         print("HTTP Response Status Code", response.getcode())
@@ -188,7 +188,7 @@ def info_of_each_item(element, thread_name):
     :param element:
     Example of element with class="fileText" which is passed as param
 
-    <div class="fileText" id="fT10316269">File: <a href="//i.4cdn.org/gif/0090500081326.webm" target="_blank"
+    <div class="fileText" id="fT10316269">File: <a href="//i.4cdn.org/wg/1489266570954.jpg" target="_blank"
     title="a very very very very long file name.webm">a very very very ve(...).webm</a>
     (2.54 MB, 640x480)</div>
 
@@ -239,7 +239,7 @@ def make_download_list(url):
     """Takes url, calls get_web_page_source() finds thread_name and makes a list of tuples for download_item()"""
     download_list = []
     html = get_web_page_source(url)
-    balls_gif = "i.4cdn.org/gif/1397912081601.gif"  # No need to download this 
+    bad_gif = "i.4cdn.org/wg/1489266570954.jpg"  # No need to download this 
     print("Parsing response...")
     soup = BeautifulSoup(html, 'html.parser')
 
@@ -251,16 +251,16 @@ def make_download_list(url):
     thread_name = elements_with_subject[0].getText()
 
     # If thread has no name there are following options
-    if url.find('thread') is -1:  # It's not a thread, but it can be a board URL => https://boards.4chan.org/g/
+    if url.find('thread') == -1:  # It's not a thread, but it can be a board URL => https://boards.4chan.org/g/
         thread_name = soup.select('.boardTitle')[0].getText()  # Try to get title of the board
-    elif thread_name is '':  # Board has no title, comment on thread is secondary option
+    elif thread_name == '':  # Board has no title, comment on thread is secondary option
         result = soup.find("blockquote", {"class": "postMessage"})  # Comment's element tag
         thread_name = result.text[:10]  # Only ten characters since beginning of comment
 
     # Sorting the download_list and passing thread_name to prepend it to item's name
     for count, element in enumerate(elements_with_fileText):  # Each element bearing 'fileText'
         hyperlink = element.a.get('href')
-        if balls_gif in hyperlink:
+        if bad_gif in hyperlink:
             continue
         if hyperlink.endswith('.gif'):
             if download_gif:
@@ -377,11 +377,11 @@ try:
     # Sets URL
     print("\nEnter URL(s) [ {0} ]  ".format(URL), end='')
     custom_user_url = input().strip(' ')
-    if custom_user_url is not '':  # Custom URL given
+    if custom_user_url != '':  # Custom URL given
         # Checking for multiple URLs or single url
-        if len(custom_user_url.split(',')) is 1:  # One URL is given
+        if len(custom_user_url.split(',')) == 1:  # One URL is given
             # Remove whatever protocol is given in input and replace it with proper protocol
-            if custom_user_url.find('https') is not -1:
+            if custom_user_url.find('https') != -1:
                 custom_user_url = custom_user_url.replace('https', protocol)
             else:
                 custom_user_url = custom_user_url.replace('http', protocol)
@@ -390,28 +390,28 @@ try:
             URL = []  # Changed to be an list, because append method is only avaiable for lists
             for item in custom_user_url.split(','):
                 # Remove whatever protocol is given in input and replace it with proper protocol
-                if item.find('https') is not -1:
+                if item.find('https') != -1:
                     item = item.replace('https', protocol)
                 else:
                     item = item.replace('http', protocol)
                 URL.append(item.strip(' '))
 
     # Sets download_gif boolean value
-    print("Do you want to download GIFs? [y/N]  ", end='')
-    download_gif_answer = input().strip(' ')
-    if download_gif_answer is 'y':
+    print("Do you want to download GIFs? [Y/n]  ", end='')
+    download_gif_answer = input().strip(' ').lower()
+    if download_gif_answer == 'y' or download_gif_answer == '':
         download_gif = True
-    elif download_gif_answer is 'N' or download_gif_answer is '':
+    elif download_gif_answer == 'n':
         download_gif = False
     else:
         quit("Incorrect input --> " + download_gif_answer)
 
     # Sets download_image boolean value
-    print("Do you want to download Images? [y/N]  ", end='')
-    download_image_answer = input().strip(' ')
-    if download_image_answer is 'y':
+    print("Do you want to download Images? [Y/n]  ", end='')
+    download_image_answer = input().strip(' ').lower()
+    if download_image_answer == 'y' or download_image_answer == '':
         download_image = True
-    elif download_image_answer is 'N' or download_image_answer is '':
+    elif download_image_answer == 'n':
         download_image = False
     else:
         quit("Incorrect input --> " + download_image_answer)
@@ -420,17 +420,17 @@ try:
     print("Where to save files? (Enter Full Path)\n[" + script_directory + "]  ", end='')
     custom_user_path = input().strip(' ')
 
-    if custom_user_path is "":
+    if custom_user_path == "":
         custom_user_path = script_directory  # If nothing is entered user wants files to be in script directory
-    elif custom_user_path is not "":  # User has supplied his custom path
+    elif custom_user_path != "":  # User has supplied his custom path
         custom_user_path = abspath(custom_user_path.rstrip('/\\'))
-        if isdir(custom_user_path) is False:  # Path does not exists
+        if isdir(custom_user_path) == False:  # Path does not exists
             uprint(custom_user_path, "does not exists, create it? [Y/n]  ", end='')
             path_answer = input().strip(' ')
-            if path_answer is "" or path_answer is "Y":
+            if path_answer == "" or path_answer == "Y":
                 makedirs(custom_user_path)  # Path created
                 uprint("Created Directory", custom_user_path)
-            elif path_answer is "n":
+            elif path_answer == "n":
                 quit('Terminating')  # Path wasn't created and we quit
             else:
                 quit("Incorrect input --> " + path_answer)
@@ -443,7 +443,7 @@ try:
 
     # Downloader
 
-    if type(URL) is str:  # Single URL
+    if type(URL) == str:  # Single URL
         dl_list = make_download_list(URL)
 
         if len(dl_list) == 0:
@@ -456,16 +456,16 @@ try:
 
         download_input = input().strip(' ')
         print()
-        if download_input is "Y" or download_input is "":
+        if download_input == "Y" or download_input == "":
             for item in dl_list:
                 download_item(*item)
             quit('Done')
-        elif download_input is 'n':
+        elif download_input == 'n':
             quit('You chose not to proceed')
         else:
             quit("Incorrect input --> " + download_input)
 
-    elif type(URL) is list:  # Multiple URLs are given
+    elif type(URL) == list:  # Multiple URLs are given
         dl_lists = []
 
         [dl_lists.append(make_download_list(single_url)) for single_url in URL]  # Appends a download list to dl_lists
@@ -481,11 +481,11 @@ try:
         
         download_input = input().strip(' ')
         print()
-        if download_input is "Y" or download_input is "":
+        if download_input == "Y" or download_input == "":
             for item in dl_lists:
                 download_item(*item)
             quit('Done')
-        elif download_input is 'n':
+        elif download_input == 'n':
             quit('You chose not to proceed')
         else:
             quit("Incorrect input --> " + download_input)
