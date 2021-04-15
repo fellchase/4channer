@@ -6,6 +6,12 @@ A Cross Platform 4chan Downloader to download multimedia content of multiple thr
 * Downloads from multiple threads in one go
 * Downloads all the Videos, Images, and GIFs in the thread
 
+## Demo
+![4channer](https://user-images.githubusercontent.com/11918572/114826781-8aff7080-9de5-11eb-9eb3-cd6e4bf5fbf9.gif)
+
+[Full Demo](https://user-images.githubusercontent.com/11918572/114826258-e5e49800-9de4-11eb-8944-b881b056c2ca.mp4)
+
+
 ## Dependencies 
 
 4chan Media Downloader is written in Python 3 and requires Python Standard Library and bs4 module
